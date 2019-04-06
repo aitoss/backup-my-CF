@@ -8,6 +8,12 @@ A tool made to backup(save a copy in local disk) all of your succesfully submitt
 * All of your succesfully submitted codes get downloaded (currently it's only for cpp format)
 * You can push these codes on your GitHub to show your swag. ;)
 
+## Requirements
+
+mechanicalsoup
+
+`pip3 install mechanicalsoup`
+
 ## Run
 
 clone or downlaod as a zip this repository
