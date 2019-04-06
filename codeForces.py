@@ -3,6 +3,8 @@
 
 import mechanicalsoup
 import json
+import os
+import getpass
 
 browser = mechanicalsoup.StatefulBrowser()
 
@@ -10,6 +12,19 @@ browser.open("https://codeforces.com/enter")
 
 browser.select_form("#enterForm")
 
+def user_auth():
+    username=input('Enter Handle or Email:-')
+    password=getpass.getpass('Enter password:-')
+    creds={'username':username,
+            'password':password
+            }
+    with open('cred.json','w') as outfile:
+        json.dump(creds,outfile)
+
+#if using for first time
+if(os.path.isfile('./cred.json')==False):
+    print("It's your first time....")
+    user_auth()
 
 with open('cred.json') as json_file:
     creds = json.load(json_file)
