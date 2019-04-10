@@ -5,6 +5,7 @@ import mechanicalsoup
 import json
 import os
 import getpass
+import time
 
 browser = mechanicalsoup.StatefulBrowser()
 
@@ -36,40 +37,75 @@ with open('cred.json') as json_file:
 
 browser.submit_selected()
 
+succesID=[] #list for storing successful Question IDs
+
+links=[]
 
 browser.follow_link("submissions")
 
-# selecting table for getting successful submitted question list
 
-table = browser.get_current_page().select("table.status-frame-datatable")
+#counting total number of pages
 
-succesID=[] #list for storing successful Question IDs
-for row in table:
-    col = row.find_all("span",attrs = {"class": "submissionVerdictWrapper"})
-    for x in col:
-        subid=x['submissionid']
-        verdict=x['submissionverdict']
-        if(verdict=='OK'):
-            succesID.append(subid)
+pageIndex = browser.get_current_page().select(".pagination")
+
+pageNumberList=[]
+for row in pageIndex:
+    cells = row.find_all("span",attrs = {"class": "page-index"})
+    for x in cells:
+        pageNumberList.append(x['pageindex'])
+
+totalNumberOfPages = int(max(pageNumberList))
+
+pageBaseLink = 'https://codeforces.com/submissions/shellkore/page/'
+
+for i in range(1,totalNumberOfPages):
+    pageLink = pageBaseLink + str(i)
+    browser.open(pageLink)
+
+    # selecting table for getting successful submitted question list
+
+    table = browser.get_current_page().select("table.status-frame-datatable")
+
+    for row in table:
+        col = row.find_all("span",attrs = {"class": "submissionVerdictWrapper"})
+        for x in col:
+            subid=x['submissionid']
+            verdict=x['submissionverdict']
+            if(verdict=='OK'):
+                succesID.append(subid)
         
     
 # saving list of succesful questions link
 
-links=[]    #list for storing links
-for row in table:
-    col = row.find_all("a",attrs = {"class": "view-source"})
-    for x in col:
-        subid=x['submissionid']
-        if(subid in succesID):
-            links.append(x['href'])
+    for row in table:
+        col = row.find_all("a",attrs = {"class": "view-source"})
+        for x in col:
+            subid=x['submissionid']
+            if(subid in succesID):
+                links.append(x['href'])
 
+summaryFile = open('summary.txt','w')
+
+for ids in succesID:
+    summaryFile.write(ids+'\n')
+
+
+summaryFile.close()
+
+#print(os.getcwd())
+path_to_download_directory = os.getenv("HOME")+"/Downloads/Codeforces-solution"
+if not os.path.exists(path_to_download_directory):
+    os.makedirs(path_to_download_directory)
+os.chdir(path_to_download_directory)
+#print(os.getcwd())
 
 baseurl="https://codeforces.com"
 
 # Generating link for getting solution
 
 for link in links:
-
+    time.sleep(1)
+    
     finalurl = baseurl+link
     print(finalurl)
 
