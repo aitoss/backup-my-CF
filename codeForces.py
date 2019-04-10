@@ -5,6 +5,7 @@ import mechanicalsoup
 import json
 import os
 import getpass
+import time
 
 browser = mechanicalsoup.StatefulBrowser()
 
@@ -91,12 +92,20 @@ for ids in succesID:
 
 summaryFile.close()
 
+#print(os.getcwd())
+path_to_download_directory = os.getenv("HOME")+"/Downloads/Codeforces-solution"
+if not os.path.exists(path_to_download_directory):
+    os.makedirs(path_to_download_directory)
+os.chdir(path_to_download_directory)
+#print(os.getcwd())
+
 baseurl="https://codeforces.com"
 
 # Generating link for getting solution
 
 for link in links:
-
+    time.sleep(1)
+    
     finalurl = baseurl+link
     print(finalurl)
 
