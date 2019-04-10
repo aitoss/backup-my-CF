@@ -10,9 +10,8 @@ A tool made to backup(save a copy in local disk) all of your succesfully submitt
 
 ## Requirements
 
-mechanicalsoup
 
-`pip3 install mechanicalsoup`
+`pip3 install -r requirements.txt`
 
 ## Run
 
