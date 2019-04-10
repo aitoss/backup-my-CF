@@ -9,40 +9,14 @@ import time
 
 browser = mechanicalsoup.StatefulBrowser()
 
-browser.open("https://codeforces.com/enter")
+#inputing handle and opening it's submission page
 
-browser.select_form("#enterForm")
+handle = input("Enter handle name:")
+homeUrl = "https://codeforces.com/submissions/"+handle
+browser.open(homeUrl)
 
-def user_auth():
-    username=input('Enter Handle or Email:-')
-    password=getpass.getpass('Enter password:-')
-    creds={'username':username,
-            'password':password
-            }
-    with open('cred.json','w') as outfile:
-        json.dump(creds,outfile)
-
-#if using for first time
-if(os.path.isfile('./cred.json')==False):
-    print("It's your first time....")
-    user_auth()
-
-
-#loading information from JSON file 
-
-with open('cred.json') as json_file:
-    creds = json.load(json_file)
-    browser['handleOrEmail']=creds['username']
-    browser['password']=creds['password']
-
-browser.submit_selected()
-
-succesID=[] #list for storing successful Question IDs
-
-links=[]
-
-browser.follow_link("submissions")
-
+succesID=[] #holds successful submissions ID
+links=[] #holds successful submissions links
 
 #counting total number of pages
 
@@ -74,7 +48,7 @@ for i in range(1,totalNumberOfPages):
             if(verdict=='OK'):
                 succesID.append(subid)
         
-    
+
 # saving list of succesful questions link
 
     for row in table:
@@ -89,11 +63,12 @@ summaryFile = open('summary.txt','w')
 for ids in succesID:
     summaryFile.write(ids+'\n')
 
-
 summaryFile.close()
 
+print("Total succesful codes submitted:",len(succesID))  
+
 #print(os.getcwd())
-path_to_download_directory = os.getenv("HOME")+"/Downloads/Codeforces-solution"
+path_to_download_directory = os.getcwd()+'/'+handle
 if not os.path.exists(path_to_download_directory):
     os.makedirs(path_to_download_directory)
 os.chdir(path_to_download_directory)
@@ -104,7 +79,7 @@ baseurl="https://codeforces.com"
 # Generating link for getting solution
 
 for link in links:
-    time.sleep(1)
+    time.sleep(0.3)
     
     finalurl = baseurl+link
     print(finalurl)
@@ -133,7 +108,7 @@ for link in links:
     filename
 
 #saving code with appropriate file name
-
-    f = open(filename, "w")
-    f.write(codestr)
-    f.close()
+    if(os.path.isfile('./'+filename)==False):
+        f = open(filename, "w")
+        f.write(codestr)
+        f.close()
