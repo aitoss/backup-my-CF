@@ -38,6 +38,12 @@ You get all the codes downloaded in a folder named same as handle name.
 
 if you get error in default settings you can try increasing delay_in_seconds (most probably in line no. 11)
 
+## To Do
+
+* automatically push to github account.
+
+* show the stats about question you succesfully solved.
+
 >Enjoy and don't forget to copy these codes in a directory and push on GitHub to show the swag
 
->Any kind of improvement would be highly appreciated.
+>Any kind of improvement would be highly appreciated. Give us stars if you liked it!
