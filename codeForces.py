@@ -6,43 +6,36 @@ import json
 import os
 import getpass
 import time
+import pickle
 
 browser = mechanicalsoup.StatefulBrowser()
 
-browser.open("https://codeforces.com/enter")
+#inputing handle and opening it's submission page
 
-browser.select_form("#enterForm")
+handle = input("Enter handle name:")
+homeUrl = "https://codeforces.com/submissions/"+handle
+browser.open(homeUrl)
 
-def user_auth():
-    username=input('Enter Handle or Email:-')
-    password=getpass.getpass('Enter password:-')
-    creds={'username':username,
-            'password':password
-            }
-    with open('cred.json','w') as outfile:
-        json.dump(creds,outfile)
+first_time_flag = False
+#changing the directory
 
-#if using for first time
-if(os.path.isfile('./cred.json')==False):
-    print("It's your first time....")
-    user_auth()
+path_to_download_directory = os.getcwd()+'/'+handle
+if not os.path.exists(path_to_download_directory):
+    os.makedirs(path_to_download_directory)
+    first_time_flag = True
+os.chdir(path_to_download_directory)
 
+succesID=[] #holds successful submissions ID
+links=[] #holds successful submissions links
+end_search = False
 
-#loading information from JSON file 
+if (first_time_flag == False):
+    idFile = open('succesfulIdRecord','rb')
+    savedID = pickle.load(idFile)
+    idFile.close()
 
-with open('cred.json') as json_file:
-    creds = json.load(json_file)
-    browser['handleOrEmail']=creds['username']
-    browser['password']=creds['password']
-
-browser.submit_selected()
-
-succesID=[] #list for storing successful Question IDs
-
-links=[]
-
-browser.follow_link("submissions")
-
+else:
+    savedID=[]
 
 #counting total number of pages
 
@@ -67,14 +60,26 @@ for i in range(1,totalNumberOfPages):
     table = browser.get_current_page().select("table.status-frame-datatable")
 
     for row in table:
+        if (end_search == True):
+            break
         col = row.find_all("span",attrs = {"class": "submissionVerdictWrapper"})
         for x in col:
             subid=x['submissionid']
+            if (subid in savedID):
+                end_search = True 
+                break
             verdict=x['submissionverdict']
             if(verdict=='OK'):
                 succesID.append(subid)
+
+    if(end_search==True):
+        break
         
-    
+#print("Total succesful codes submitted:",len(succesID))  
+
+    with open('succesfulIdRecord','wb') as idFile:
+        pickle.dump(succesID,idFile)
+
 # saving list of succesful questions link
 
     for row in table:
@@ -84,27 +89,12 @@ for i in range(1,totalNumberOfPages):
             if(subid in succesID):
                 links.append(x['href'])
 
-summaryFile = open('summary.txt','w')
-
-for ids in succesID:
-    summaryFile.write(ids+'\n')
-
-
-summaryFile.close()
-
-#print(os.getcwd())
-path_to_download_directory = os.getenv("HOME")+"/Downloads/Codeforces-solution"
-if not os.path.exists(path_to_download_directory):
-    os.makedirs(path_to_download_directory)
-os.chdir(path_to_download_directory)
-#print(os.getcwd())
-
 baseurl="https://codeforces.com"
 
 # Generating link for getting solution
 
 for link in links:
-    time.sleep(1)
+    time.sleep(0.4)
     
     finalurl = baseurl+link
     print(finalurl)
@@ -133,7 +123,7 @@ for link in links:
     filename
 
 #saving code with appropriate file name
-
-    f = open(filename, "w")
-    f.write(codestr)
-    f.close()
+    if(os.path.isfile('./'+filename)==False):
+        f = open(filename, "w")
+        f.write(codestr)
+        f.close()
