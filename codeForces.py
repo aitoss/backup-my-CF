@@ -49,7 +49,7 @@ for row in pageIndex:
 
 totalNumberOfPages = int(max(pageNumberList))
 
-pageBaseLink = 'https://codeforces.com/submissions/shellkore/page/'
+pageBaseLink = 'https://codeforces.com/submissions/'+handle+'/page/'
 
 for i in range(1,totalNumberOfPages):
     pageLink = pageBaseLink + str(i)
@@ -86,7 +86,6 @@ for i in range(1,totalNumberOfPages):
         col = row.find_all("a",attrs = {"class": "view-source"})
         for x in col:
             subid=x['submissionid']
-            if(subid in succesID):
                 links.append(x['href'])
 
 baseurl="https://codeforces.com"
