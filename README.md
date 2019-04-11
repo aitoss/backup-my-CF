@@ -3,9 +3,10 @@ A tool made to backup(save a copy in local disk) all of your succesfully submitt
 
 ## Features
 
-* Ask for username(Handle or Email) of the codeforces account whose codes you want.
+* Ask for username(Handle or Email) of the codeforces account whose codes you want.(handle is case insensetive)
 * All of your succesfully submitted codes get downloaded in the folder named same as handle name.
 * All the codes are named according the contest number and level. eg:-111E ,103A etc.
+* Running the script next time would download only new codes.
 * You can push these codes on your GitHub to show your swag. ;)
 
 ## Requirements
@@ -32,6 +33,10 @@ run codeForces File
 enter handle name
 
 You get all the codes downloaded in a folder named same as handle name.
+
+## Configuring
+
+if you get error in default settings you can try increasing delay_in_seconds (most probably in line no. 11)
 
 ## To Do
 
