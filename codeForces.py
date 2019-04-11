@@ -8,6 +8,7 @@ import getpass
 import time
 import pickle
 
+delay_in_seconds= 0.5
 browser = mechanicalsoup.StatefulBrowser()
 
 #inputing handle and opening it's submission page
@@ -75,8 +76,6 @@ for i in range(1,totalNumberOfPages):
     if(end_search==True):
         break
         
-#print("Total succesful codes submitted:",len(succesID))  
-
     with open('succesfulIdRecord','wb') as idFile:
         pickle.dump(succesID,idFile)
 
@@ -86,14 +85,14 @@ for i in range(1,totalNumberOfPages):
         col = row.find_all("a",attrs = {"class": "view-source"})
         for x in col:
             subid=x['submissionid']
-                links.append(x['href'])
+            links.append(x['href'])
 
 baseurl="https://codeforces.com"
 
 # Generating link for getting solution
 
 for link in links:
-    time.sleep(0.4)
+    time.sleep(delay_in_seconds)
     
     finalurl = baseurl+link
     print(finalurl)
