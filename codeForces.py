@@ -48,7 +48,10 @@ for row in pageIndex:
     for x in cells:
         pageNumberList.append(x['pageindex'])
 
-totalNumberOfPages = int(max(pageNumberList))
+if not pageNumberList:
+    totalNumberOfPages = 2
+else:
+    totalNumberOfPages = int(max(pageNumberList))
 
 pageBaseLink = 'https://codeforces.com/submissions/'+handle+'/page/'
 
@@ -67,7 +70,7 @@ for i in range(1,totalNumberOfPages):
         for x in col:
             subid=x['submissionid']
             if (subid in savedID):
-                end_search = True 
+                end_search = True
                 break
             verdict=x['submissionverdict']
             if(verdict=='OK'):
@@ -75,7 +78,7 @@ for i in range(1,totalNumberOfPages):
 
     if(end_search==True):
         break
-        
+
     with open('succesfulIdRecord','wb') as idFile:
         pickle.dump(succesID,idFile)
 
@@ -93,7 +96,7 @@ baseurl="https://codeforces.com"
 
 for link in links:
     time.sleep(delay_in_seconds)
-    
+
     finalurl = baseurl+link
     print(finalurl)
 
