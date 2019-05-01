@@ -16,7 +16,7 @@ A tool made to backup(save a copy in local disk) all of your succesfully submitt
 
 ## Run
 
-clone or "downlaod as a zip" this repository
+clone or "download as a zip" this repository
 
 to clone Type in terminal
 
