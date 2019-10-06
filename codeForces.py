@@ -139,6 +139,17 @@ elif(language.find('Py')):
      fileExtension = 'py'
 elif(language.find('Java')):
      fileExtension = 'java'
+        #here
+elif(language.find('Delphi 7')):
+     fileExtension = 'DPR'
+elif(language.find('C')):
+     fileExtension = 'c'
+elif(language.find('C#')):
+     fileExtension = 'cs'
+elif(language.find('PHP')):
+     fileExtension = '.PHP'
+elif(language.find('Pascal')):
+     fileExtension = '.pas'
 
 filename+='.'+fileExtension
 
