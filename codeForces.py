@@ -20,7 +20,7 @@ browser.open(homeUrl)
 first_time_flag = False
 #changing the directory
 
-path_to_download_directory = os.getcwd()+'/'+handle
+path_to_download_directory = f'{os.getcwd()}/{handle}'
 if not os.path.exists(path_to_download_directory):
     os.makedirs(path_to_download_directory)
     first_time_flag = True
@@ -53,7 +53,7 @@ if not pageNumberList:
 else:
     totalNumberOfPages = int(max(pageNumberList))
 
-pageBaseLink = 'https://codeforces.com/submissions/'+handle+'/page/'
+pageBaseLink = f'https://codeforces.com/submissions/{handle}/page/'
 
 for i in range(1,totalNumberOfPages):
     pageLink = pageBaseLink + str(i)
@@ -102,7 +102,7 @@ for link in links:
 
     browser.open(finalurl)
 
-#saving code in a string
+    #saving code in a string
 
     codestr=''
 
@@ -112,7 +112,7 @@ for link in links:
 
     datatable =browser.get_current_page().select(".datatable")
 
-#getting name of Question number
+    #getting name of Question number
 
     textlist=[]
     for row in datatable:
@@ -121,29 +121,28 @@ for link in links:
             textlist.append(x.text)
     filename=textlist[1]
 
-#getting language of code
+    #getting language of code
 
-metaInfo=[]
-for row in datatable:
-    col = row.find_all('td')
-    for x in col:
-        metaInfo.append(x.text)
-        
-language=metaInfo[3].strip()
+    metaInfo=[]
+    for row in datatable:
+        col = row.find_all('td')
+        for x in col:
+            metaInfo.append(x.text)
+            
+    language=metaInfo[3].strip()
 
-#saving fileName with appropriate extension
+    #saving fileName with appropriate extension
 
-if(language.find('C++')):
-    fileExtension = 'cpp'
-elif(language.find('Py')):
-     fileExtension = 'py'
-elif(language.find('Java')):
-     fileExtension = 'java'
+    if(language.find('C++')):
+        fileExtension = 'cpp'
+    elif(language.find('Py')):
+         fileExtension = 'py'
+    elif(language.find('Java')):
+         fileExtension = 'java'
 
-filename+='.'+fileExtension
+    filename+='.'+fileExtension
 
-#saving code with appropriate file name
+    #saving code with appropriate file name
     if(os.path.isfile('./'+filename)==False):
-        f = open(filename, "w")
-        f.write(codestr)
-        f.close()
+        with open(filename,'w') as f:
+            f.write(codestr)
