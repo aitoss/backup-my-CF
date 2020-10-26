@@ -1,9 +1,9 @@
 # backup-my-CF
-A tool made to backup(save a copy in local disk) all of your succesfully submitted codes on codeforces :)
+A tool made to backup (save a copy in local disk) all of your succesfully submitted codes on codeforces :)
 
 ## Features
 
-* Ask for username(Handle or Email) of the codeforces account whose codes you want.(handle is case insensetive)
+* Ask for username (Handle or Email) of the codeforces account whose codes you want.(handle is case insensetive)
 * All of your succesfully submitted codes get downloaded in the folder named same as handle name.
 * All the codes are named according the contest number and level. eg:-111E ,103A etc.
 * Running the script next time would download only new codes.
