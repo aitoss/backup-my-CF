@@ -121,27 +121,6 @@ for link in links:
             textlist.append(x.text)
     filename=textlist[1]
 
-    #getting language of code
-
-    metaInfo=[]
-    for row in datatable:
-        col = row.find_all('td')
-        for x in col:
-            metaInfo.append(x.text)
-            
-    language=metaInfo[3].strip()
-
-    #saving fileName with appropriate extension
-
-    if(language.find('C++')):
-        fileExtension = 'cpp'
-    elif(language.find('Py')):
-         fileExtension = 'py'
-    elif(language.find('Java')):
-         fileExtension = 'java'
-
-    filename+='.'+fileExtension
-
     #saving code with appropriate file name
     if(os.path.isfile('./'+filename)==False):
         with open(filename,'w') as f:
