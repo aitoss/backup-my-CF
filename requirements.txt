@@ -2,7 +2,7 @@ beautifulsoup4==4.7.1
 certifi==2019.3.9
 chardet==3.0.4
 idna==2.8
-lxml==4.6.3
+lxml==4.6.5
 MechanicalSoup==0.11.0
 requests==2.21.0
 six==1.12.0
